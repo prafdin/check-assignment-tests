@@ -38,6 +38,10 @@ class WebhookHandler(BaseHTTPRequestHandler):
 
     def _process_webhook(self, payload):
         event_type = self.headers.get('X-GitHub-Event', 'unknown')
+        branch = payload.get('ref', '').replace('refs/heads/', '')
+
+        if branch != 'webhooks_devops_assignment':
+            return
 
         if event_type == 'push':
             self._handle_push_event(payload)
