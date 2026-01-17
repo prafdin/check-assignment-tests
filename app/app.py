@@ -3,8 +3,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# вычисляется ОДИН раз при старте приложения
-DEPLOY_DATE = datetime.now().strftime("%Y%m%d%H%M")
+DEPLOY_DATE = datetime.now().strftime("%Y%m%d%H%M%S")
 
 @app.route("/")
 def index():
