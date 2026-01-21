@@ -62,7 +62,7 @@ auth.token = "$AUTH_TOKEN"
 name = "app-$USERNAME"
 type = "http"
 localIP = "127.0.0.1"
-localPort = 8181
+localPort = 5000
 customDomains = ["app.$USERNAME.$SERVER_ADDR", "app-test.$USERNAME.$SERVER_ADDR"]
 
 # Прокси для SSH (для GitHub Actions)
