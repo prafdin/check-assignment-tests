@@ -57,21 +57,21 @@ serverPort = 7000
 auth.method = "token"
 auth.token = "$AUTH_TOKEN"
 
-# Прокси для webhook сервера
-[[proxies]]
-name = "hook-$USERNAME"
-type = "http"
-localIP = "127.0.0.1"
-localPort = 4000
-customDomains = ["webhook.$USERNAME.$SERVER_ADDR"]
-
 # Прокси для веб-приложения
 [[proxies]]
 name = "app-$USERNAME"
 type = "http"
 localIP = "127.0.0.1"
-localPort = 5000
-customDomains = ["app.$USERNAME.$SERVER_ADDR"]
+localPort = 8181
+customDomains = ["app.$USERNAME.$SERVER_ADDR", "app-test.$USERNAME.$SERVER_ADDR"]
+
+# Прокси для SSH (для GitHub Actions)
+[[proxies]]
+name = "ssh-$USERNAME"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 22
+remotePort = 2022
 EOF
 
 echo "✅ Конфигурация сгенерирована в /etc/frp/frpc.toml"
@@ -101,7 +101,8 @@ echo "   sudo nano /etc/frp/frpc.toml   # Редактировать конфи�
 echo ""
 echo "🌐 URLs для вашей конфигурации:"
 echo "   Webhook URL: http://webhook.$USERNAME.$SERVER_ADDR"
-echo "   App URL: http://app.$USERNAME.$SERVER_ADDR"
+echo "   App URLs: http://app.$USERNAME.$SERVER_ADDR, http://app-test.$USERNAME.$SERVER_ADDR"
+echo "   SSH доступ: ssh user@$SERVER_ADDR -p 2022 (для GitHub Actions)"
 echo ""
 echo "⚙️  Для изменения конфигурации отредактируйте:"
 echo "   /etc/frp/frpc.toml"

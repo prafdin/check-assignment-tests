@@ -20,9 +20,3 @@ run:
 
 rm:
 	docker rm -f $(CONTAINER_NAME) || true
-
-run-listener:
-	nohup python3 webhook-listener/webhook-listener.py >> /tmp/webhook.log 2>&1 &
-
-stop-listener:
-	kill $$(cat /tmp/server.pid)

@@ -1,0 +1,28 @@
+name: Deploy app
+
+on:
+  push:
+    branches: [ github_actions_assignment ]
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout код
+      uses: actions/checkout@v4
+
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          TMP_DIR=$(mktemp -d)
+          git clone https://github.com/prafdin/check-assignment-tests.git $TMP_DIR
+          cd $TMP_DIR
+          make build
+          make rm
+          make run
