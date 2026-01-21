@@ -23,9 +23,7 @@ jobs:
           TMP_DIR=$(mktemp -d)
           git clone https://github.com/prafdin/check-assignment-tests.git $TMP_DIR
           cd $TMP_DIR
-          git checkout $BRANCH_NAME
+          git checkout ${{ github.ref_name }}
           make build
           make rm
           make run
-      env:
-        BRANCH_NAME: ${{ github.ref_name }}
