@@ -1,13 +1,12 @@
 name: Deploy app
 
 on:
-  push:
-    branches: [ github_actions_assignment ]
+  release:
+    types: [published]
 
 jobs:
   pipeline:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout код
       uses: actions/checkout@v4
