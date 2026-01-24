@@ -10,13 +10,12 @@ CONTAINER_NAME=simple-app
 
 build:
 	cd ./app
-	docker build -t $(IMAGE_NAME) .
+	docker build --build-arg DEPLOY_REF=$(DEPLOY_REF) -t $(IMAGE_NAME) .
 
 run:
 	docker run -d \
 		--name $(CONTAINER_NAME) \
 		-p 5000:5000 \
-		-e DEPLOY_REF \
 		$(IMAGE_NAME)
 
 rm:
