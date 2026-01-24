@@ -23,6 +23,7 @@ jobs:
           git clone https://github.com/prafdin/check-assignment-tests.git $TMP_DIR
           cd $TMP_DIR
           git checkout ${{ github.ref_name }}
+          export DEPLOY_REF="${{ github.sha }}"
           make build
           make rm
           make run
