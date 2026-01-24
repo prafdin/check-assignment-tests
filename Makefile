@@ -16,6 +16,7 @@ run:
 	docker run -d \
 		--name $(CONTAINER_NAME) \
 		-p 5000:5000 \
+		-e DEPLOY_REF \
 		$(IMAGE_NAME)
 
 rm:
