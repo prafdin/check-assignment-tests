@@ -44,11 +44,12 @@ class WebhookHandler(BaseHTTPRequestHandler):
             return
 
         if event_type == 'push':
-            self._handle_push_event(payload)
+            deploy_ref = payload.get('head_commit', {}).get('id', 'NA')
+            self._handle_push_event(payload, deploy_ref)
         else:
             print(f"   ℹ️  Событие '{event_type}' - базовое логирование")
 
-    def _handle_push_event(self, payload):
+    def _handle_push_event(self, payload, deploy_ref):
         branch = payload.get('ref', '').replace('refs/heads/', '')
         clone_url = payload.get('repository', {}).get('clone_url', 'unknown')
 
@@ -64,10 +65,14 @@ class WebhookHandler(BaseHTTPRequestHandler):
                 check=True
             )
 
+            env = os.environ.copy()
+            env['DEPLOY_REF'] = deploy_ref
+            
             subprocess.run(
                 ["make", "build"],
                 cwd=tmpdir,
-                check=True
+                check=True,
+                env=env
             )
 
             subprocess.run(
@@ -79,7 +84,8 @@ class WebhookHandler(BaseHTTPRequestHandler):
             subprocess.run(
                 ["make", "run"],
                 cwd=tmpdir,
-                check=True
+                check=True,
+                env=env
             )
 
 
