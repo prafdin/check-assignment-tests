@@ -7,9 +7,6 @@ on:
 jobs:
   pipeline:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: "ghcr.io/${{ github.repository_owner }}/simple-app:${{ github.sha }}"
-      CONTAINER_NAME: "simple-app"
     steps:
     - name: Checkout код
       uses: actions/checkout@v4
@@ -22,6 +19,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          export IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/simple-app:${{ github.sha }}"
+          export CONTAINER_NAME="simple-app"
           docker pull $IMAGE_NAME
           docker rm -f $CONTAINER_NAME || true
           docker run -d \
