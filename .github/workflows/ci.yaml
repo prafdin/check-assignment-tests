@@ -19,7 +19,6 @@ jobs:
       - name: Run linter
         run: flake8 app
   test:
-    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
