@@ -1,9 +1,12 @@
 import pytest
+
 from app.app import app
 
 
 @pytest.fixture
-def client():
+def client(tmp_path, monkeypatch):
+    comments_file = tmp_path / "comments.json"
+    monkeypatch.setattr('app.app.COMMENTS_FILE', comments_file)
     app.config['TESTING'] = True
     with app.test_client() as client:
         yield client

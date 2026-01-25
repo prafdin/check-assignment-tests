@@ -7,5 +7,52 @@
 </head>
 <body>
     <h1>Привет, Flask</h1>
+
+    <h2>Оставить комментарий</h2>
+    <form id="comment-form">
+        <textarea name="content" rows="4" cols="50" required></textarea>
+        <br>
+        <input type="submit" value="Отправить">
+    </form>
+
+    <h2>Комментарии</h2>
+    <ul id="comments-list"></ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentsList = document.getElementById('comments-list');
+            const commentForm = document.getElementById('comment-form');
+
+            async function fetchComments() {
+                const response = await fetch('/api/comments');
+                const comments = await response.json();
+                commentsList.innerHTML = '';
+                comments.forEach(comment => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `${comment.content} <br> <small>${new Date(comment.timestamp).toLocaleString()}</small>`;
+                    commentsList.appendChild(li);
+                });
+            }
+
+            commentForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const content = event.target.elements.content.value;
+                const response = await fetch('/api/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ content: content })
+                });
+
+                if (response.ok) {
+                    event.target.elements.content.value = '';
+                    fetchComments();
+                }
+            });
+
+            fetchComments();
+        });
+    </script>
 </body>
 </html>
