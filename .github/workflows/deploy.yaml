@@ -18,7 +18,9 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        script: rm -rf /tmp/deploy && mkdir -p /tmp/deploy
+        script: |
+          mkdir -p /tmp/deploy
+          rm -rf /tmp/deploy/docker-compose.yaml || true
 
     - name: Copy docker-compose.yml
       uses: appleboy/scp-action@master
