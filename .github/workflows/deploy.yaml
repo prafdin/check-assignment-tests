@@ -19,7 +19,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          export IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/simple-app:${{ github.sha }}"
+          export IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/check-assignment-tests:${{ github.sha }}"
           export CONTAINER_NAME="simple-app"
           docker pull $IMAGE_NAME
           docker rm -f $CONTAINER_NAME || true
