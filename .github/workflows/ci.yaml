@@ -2,7 +2,7 @@ name: Check linters
 
 on:
   push:
-    branches: [ github_actions_assignment ]
+    branches: [ docker_devops_assignment ]
 
 jobs:
   lint:
